@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <button onclick="printCanvas()">Print</button>
+    <canvas id="c" width="600" height="600"></canvas>
+
+    <script>
+      function printCanvas() {
+        var canvas = document.getElementById("c");
+        var canvasImage = canvas.toDataURL();
+        var printRoomWindow = window.open("", "", "width=1000, height=1000");
+        var windowContent = '<img src="' + canvasImage + '"/>';
+        printRoomWindow.document.open();
+        printRoomWindow.document.write(windowContent);
+        //printRoomWindow.focus();
+        printRoomWindow.document.addEventListener(
+          "load",
+          function() {
+            printRoomWindow.focus();
+            printRoomWindow.print();
+            printRoomWindow.document.close();
+          },
+          true
+        );
+        //printRoomWindow.close();
+      }
+
+      (function() {
+        var canvas = document.getElementById("c"),
+          context = canvas.getContext("2d"),
+          img = document.createElement("img"),
+          mouseDown = false,
+          hasText = true;
+
+        function clearCanvas() {
+          if (hasText) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            hasText = false;
+          }
+        }
+
+        //resize canvas to image size
+        img.onload = function() {
+          console.log(`width: ${img.width}, height: ${img.height}`);
+          canvas.width = img.width * 1.05;
+          canvas.height = img.height * 1.05;
+        };
+
+        //load image
+        img.addEventListener(
+          "load",
+          function() {
+            clearCanvas();
+            context.drawImage(img, 0, 0);
+            console.log("load image");
+          },
+          false
+        );
+
+        //enable drag & drop
+        canvas.addEventListener(
+          "dragover",
+          function(evt) {
+            evt.preventDefault();
+          },
+          false
+        );
+
+        canvas.addEventListener(
+          "click",
+          function(evt) {
+            console.log("clicked");
+          },
+          false
+        );
+
+        //handle drop image file - Firefox and Chrome
+        canvas.addEventListener(
+          "drop",
+          function(evt) {
+            console.log("drop");
+            console.log(evt);
+
+            var files = evt.dataTransfer.files;
+            var file = files[0];
+            console.log(files);
+            console.log(file);
+
+            var reader = new FileReader();
+
+            reader.onload = function(evt) {
+              console.log("reader.onload");
+              console.log(evt);
+
+              img.src = evt.target.result;
+
+              var canvasImage = canvas.toDataURL("img/png");
+              console.log(canvasImage);
+            };
+            reader.readAsDataURL(file);
+            evt.preventDefault();
+          },
+          false
+        ); //end canvas drop
+      })();
+    </script>
+  </body>
+</html>
