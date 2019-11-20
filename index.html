@@ -7,13 +7,10 @@
     <button onclick="printCanvas()">Print</button>
 
     <div id="canvas-container">
-          <canvas id="c" width="600" height="400"></canvas>
+      <canvas id="c" width="600" height="400"></canvas>
     </div>
 
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.4.0/fabric.min.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.4.0/fabric.min.js"></script>
     <script>
       function printCanvas() {
         var canvas = document.getElementById("c");
@@ -33,13 +30,12 @@
           true
         );
         //printRoomWindow.close();
-      }//print canvas
+      } //print canvas
 
       (function() {
-
         //fabric
-        var canvas = new fabric.Canvas('c', {
-          hoverCursor: 'move',
+        var canvas = new fabric.Canvas("c", {
+          hoverCursor: "move",
           selection: false,
           targetFindTolerance: 2
         });
@@ -47,13 +43,16 @@
         var rect = new fabric.Rect({
           left: 100,
           top: 100,
-          fill: 'red',
+          fill: "red",
           width: 20,
           height: 20
-
         });
 
-        var nameText = new fabric.IText('hello', {left: 100, top: 200, fontSize: 40});
+        var nameText = new fabric.IText("hello", {
+          left: 100,
+          top: 200,
+          fontSize: 40
+        });
 
         canvas.add(rect);
         canvas.add(nameText);
@@ -66,7 +65,7 @@
         }
 
         function resizeCanvasSize() {
-          console.log('resize canvas');
+          console.log("resize canvas");
           canvas.width = img.width * 1.05;
           canvas.height = img.height * 1.05;
           canvasContainer = img.width * 1.05;
@@ -101,7 +100,7 @@
           false
         );
 
-        img
+        img;
 
         //enable drag & drop
         canvasContainer.addEventListener(
@@ -136,8 +135,6 @@
           },
           false
         ); //end canvas drop
-
-
       })();
     </script>
   </body>
